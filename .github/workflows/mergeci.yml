@@ -1,6 +1,6 @@
 name: Merge workflow
 
-on: [ pull-request ]
+on: [ pull_request ]
 
 jobs:
     test:
