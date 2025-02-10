@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3afdc68f-1ea2-46ba-8832-82ee79288598",
+								"id": "e28fe0c2-393a-4e7e-a34b-0d69dfd9bc78",
 								"exec": [
 									"var token = pm.response.json().accessToken",
 									"",
@@ -26,7 +26,10 @@
 									"});",
 									"",
 									"",
-									"pm.execution.setNextRequest(\"Products\")"
+									"// pm.execution.setNextRequest(\"Products\")",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
