@@ -26,7 +26,7 @@
 									"});",
 									"",
 									"",
-									"// pm.execution.setNextRequest(\"null\")"
+									"pm.execution.setNextRequest(\"Products\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -205,6 +205,10 @@
 									"});",
 									"",
 									"",
+									"pm.execution.setNextRequest(\"Create Cart\")",
+									"",
+									"",
+									"",
 									"",
 									"",
 									"",
@@ -372,10 +376,7 @@
 									"",
 									"pm.environment.set(\"cart_id\", cart_id);",
 									"",
-									"",
-									"",
-									"",
-									"pm.execution.setNextRequest(\"Clean Up\")"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -500,6 +501,8 @@
 									"var item_id = jsonData.itemId",
 									"pm.environment.set(\"item_id\", item_id);",
 									"",
+									"",
+									"pm.execution.setNextRequest(\"Create an Order\")",
 									"",
 									"",
 									"",
@@ -688,7 +691,10 @@
 								"exec": [
 									"var order_id = pm.response.json().orderId",
 									"",
-									"pm.environment.set(\"order_id\", order_id);"
+									"pm.environment.set(\"order_id\", order_id);",
+									"",
+									"",
+									"pm.execution.setNextRequest(\"Clean Up\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
