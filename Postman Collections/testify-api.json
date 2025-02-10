@@ -1,0 +1,903 @@
+{
+	"info": {
+		"_postman_id": "5da95273-f954-43f0-a07f-2e5d4d69bc2a",
+		"name": "Simple Grocery API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "API-Client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3afdc68f-1ea2-46ba-8832-82ee79288598",
+								"exec": [
+									"var token = pm.response.json().accessToken",
+									"",
+									"pm.environment.set(\"token\", token);",
+									"",
+									"",
+									"",
+									"var Token = pm.response.json().accessToken;",
+									"pm.test(\"Verify that Access Token is \" + Token + \"\",  function () {",
+									"    pm.expect(Token).to.eql(Token);",
+									"});",
+									"",
+									"",
+									"// pm.environment.unset(\"token\", token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2f1b70db-178d-437b-989c-6f4684a7db84",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientName\": \"{{$randomFullName}}\",\n    \"clientEmail\": \"{{$randomEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api-clients"
+					},
+					"response": []
+				}
+			],
+			"id": "025800bc-28df-4dd8-99f0-6afa2d3d3438"
+		},
+		{
+			"name": "Status",
+			"item": [
+				{
+					"name": "Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c9367b7-44fb-4060-9bfb-7b7b0eff60d9",
+								"exec": [
+									"",
+									"pm.test(\"Verify that Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verify that status message is UP\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"UP\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2c60e3db-d5e3-4bac-aaa9-c51a8808f784",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/status"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid status request method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c9367b7-44fb-4060-9bfb-7b7b0eff60d9",
+								"exec": [
+									"",
+									"pm.test(\"Verify that Status code is 404\", function () {",
+									"    pm.response.to.have.status(402);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Verify that error message is correct\", function () {",
+									"    pm.expect(jsonData.error).to.eql(\"The resource could not be found. Check your endpoint and request method.\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "b8df4b23-44db-46b7-add3-2cc1ada18bf4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{baseUrl}}/status"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid status request Url",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c9367b7-44fb-4060-9bfb-7b7b0eff60d9",
+								"exec": [
+									"",
+									"pm.test(\"Verify that Status code is 404\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Verify that error message is correct\", function () {",
+									"    pm.expect(jsonData.error).to.eql(\"The resource could not be found. Check your endpoint and request method.\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "01ed4d85-c418-4f49-bfb0-9c0a3178a6a2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/status.."
+					},
+					"response": []
+				}
+			],
+			"id": "b828b6e5-8b20-4a41-b851-7e258758588b"
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dca481d-e700-4ddb-b22e-325b91e2fca3",
+								"exec": [
+									"",
+									"pm.test(\"Verify that Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"",
+									"// Tests for product 9482 - \"Whole milk\"",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Verify that product 9482 is category dairy\", function () {",
+									"    pm.expect(jsonData[16].category).to.eql(\"dairy\");",
+									"});",
+									"",
+									"pm.test(\"Verify that product 9482 is 'Whole milk'\", function () {",
+									"    pm.expect(jsonData[16].name).to.eql(\"Whole Milk\");",
+									"});",
+									"",
+									"pm.test(\"Verify that product 9482 is 'Whole milk'\", function () {",
+									"    pm.expect(jsonData[16].inStock).to.eql(true);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"// console.log(jsonData.length)",
+									"",
+									"// let inStockCount = jsonData.filter(item => item.inStock === false).length;",
+									"// console.log(inStockCount)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "b8b12edc-7ca3-4cf3-8f0e-7428cf29f2f4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "coffee",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "results",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "available",
+									"value": "false",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "perPage",
+									"value": "20",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dca481d-e700-4ddb-b22e-325b91e2fca3",
+								"exec": [
+									"",
+									"pm.test(\"Verify that Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"",
+									"// Tests for product 9482 - \"Whole milk\"",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Verify that product 9482 is category dairy\", function () {",
+									"    pm.expect(jsonData[16].category).to.eql(\"dairy\");",
+									"});",
+									"",
+									"pm.test(\"Verify that product 9482 is 'Whole milk'\", function () {",
+									"    pm.expect(jsonData[16].name).to.eql(\"Whole Milk\");",
+									"});",
+									"",
+									"pm.test(\"Verify that product 9482 is 'Whole milk'\", function () {",
+									"    pm.expect(jsonData[16].inStock).to.eql(true);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "60ebc3f9-f4af-42da-ab7e-5eef7ef9fe4e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "coffee",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "results",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "available",
+									"value": "false",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "b83fe6ad-632d-44f4-be84-902cdd912774"
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "Create Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49b58b7f-62c8-400b-9647-a3336e4f2177",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status is true\", function () {",
+									"    pm.expect(jsonData.created).to.eql(true);",
+									"});",
+									"",
+									"var cart_id = jsonData.cartId",
+									"",
+									"pm.environment.set(\"cart_id\", cart_id);",
+									"",
+									"",
+									"",
+									"",
+									"pm.execution.setNextRequest(\"Clean Up\")"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "4791e76f-7f86-400b-9466-c12f3fcbada3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{baseUrl}}/carts"
+					},
+					"response": []
+				},
+				{
+					"name": "Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dca481d-e700-4ddb-b22e-325b91e2fca3",
+								"exec": [
+									"",
+									"pm.test(\"Verify that Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2ce79c43-a901-48d5-99db-9c4c030cb013",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/:cartId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								":cartId"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "coffee",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "results",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "available",
+									"value": "false",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "perPage",
+									"value": "20",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "{{cart_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add an Item to Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49b58b7f-62c8-400b-9647-a3336e4f2177",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var Cart = pm.response.json();",
+									"pm.test(\"Status is true\", function () {",
+									"    pm.expect(Cart.created).to.eql(true);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status is true\", function () {",
+									"    pm.expect(jsonData.created).to.eql(true);",
+									"});",
+									"",
+									"var item_id = jsonData.itemId",
+									"pm.environment.set(\"item_id\", item_id);",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"// pm.test(\"Body is a string\", function () {",
+									"//     pm.expect(Cart.cartId).to.be.a.(true);",
+									"//     pm.expect(pm.response.text()).to.include(\"\");",
+									"// });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "b74e7c72-2cea-4c33-95ab-6bf145500ee5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 4646,\n    \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts/:cartId/items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								":cartId",
+								"items"
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "{{cart_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify an Item",
+					"id": "70447cb4-2e0e-413c-b6db-915744e0b737",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts/:cartId/items/:itemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								":cartId",
+								"items",
+								":itemId"
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "{{cart_id}}"
+								},
+								{
+									"key": "itemId",
+									"value": "355807167"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Replace a cart item",
+					"id": "7b190bd1-a508-4ee1-84b7-215216d65927",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 5478,\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts/:cartId/items/:itemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								":cartId",
+								"items",
+								":itemId"
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "{{cart_id}}"
+								},
+								{
+									"key": "itemId",
+									"value": "{{item_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Cart Item",
+					"id": "fccff3fb-b495-4dfc-8d11-7f8c1570144f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/:cartId/items/:itemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carts",
+								":cartId",
+								"items",
+								":itemId"
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "{{cart_id}}"
+								},
+								{
+									"key": "itemId",
+									"value": "{{item_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "4bd4cc27-cd84-4a3e-b67a-73fa45307043"
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create an Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5696ae03-9819-4492-9ec7-cdc6cf5c6317",
+								"exec": [
+									"var order_id = pm.response.json().orderId",
+									"",
+									"pm.environment.set(\"order_id\", order_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "a59b45dc-4d53-4da8-aa1d-0a914481cfb5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"cartId\": \"{{cart_id}}\",\n\"customerName\": \"{{$randomFullName}}\",\n\"comment\": \"{{$randomLoremText}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Order",
+					"id": "5a7e196b-423e-4f6e-8f91-8435a55c03e8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Order",
+					"id": "c5da3001-be9a-4983-8470-84e5cba03a2f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders/:orderId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "4d500ab3-b41b-4d17-83d6-547fe0b5c189"
+		},
+		{
+			"name": "Test Clean Up",
+			"item": [
+				{
+					"name": "Clean Up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1859fe8d-5a33-4b86-9529-5cd838b0a331",
+								"exec": [
+									"",
+									"pm.environment.unset(\"order_id\")",
+									"pm.environment.unset(\"cart_id\")",
+									"pm.environment.unset(\"item_id\")",
+									"pm.environment.unset(\"token\")",
+									"",
+									"",
+									"pm.test(\"Verify status code\", function () {",
+									"    if (pm.response.code === 200) {",
+									"        console.log(\"Environment is clean\")",
+									"    } else {",
+									"        console.log(\"Environment is not clean\")",
+									"    }",
+									"     pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "bf15bc9f-3e8a-43a2-81f8-4173bdac2f00",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/status"
+					},
+					"response": []
+				}
+			],
+			"id": "4137caa5-a245-4d81-90f6-b66a5dc326a9"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ec5ad6e2-2268-4aa3-8741-341b3df558d8",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f7950218-4b4b-4c5d-98eb-980675715d52",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://simple-grocery-store-api.glitch.me",
+			"type": "string"
+		},
+		{
+			"key": "cart_id",
+			"value": ""
+		},
+		{
+			"key": "item_id",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
