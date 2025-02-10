@@ -107,7 +107,7 @@
 								"exec": [
 									"",
 									"pm.test(\"Verify that Status code is 404\", function () {",
-									"    pm.response.to.have.status(402);",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"var jsonData = pm.response.json();",
@@ -143,7 +143,7 @@
 								"exec": [
 									"",
 									"pm.test(\"Verify that Status code is 404\", function () {",
-									"    pm.response.to.have.status(403);",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"var jsonData = pm.response.json();",
