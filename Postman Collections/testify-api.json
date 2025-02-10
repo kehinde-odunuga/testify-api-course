@@ -832,7 +832,7 @@
 									"});",
 									"",
 									"",
-									"",
+									"pm.execution.setNextRequest(\"API-Client\")",
 									"",
 									""
 								],
